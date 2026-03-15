@@ -2,9 +2,6 @@
 
 export const dynamic = 'force-dynamic';
 
-
-
-
 import { useState, useEffect } from 'react'
 import { createClient } from '../../lib/supabase/client'
 import Breadcrumbs from '../components/Breadcrumbs'
@@ -28,45 +25,70 @@ export default function TeamPage() {
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
   const [activeTab, setActiveTab] = useState<'overview' | 'episodes' | 'strategies'>('overview')
   const [loading, setLoading] = useState(true)
+  const [isOfflineMode, setIsOfflineMode] = useState(false)
 
   useEffect(() => {
+    // Check if Supabase is configured
+    if (!supabase) {
+      setIsOfflineMode(true)
+      // Load from localStorage for offline mode
+      const savedChild = JSON.parse(localStorage.getItem('childProfile') || '{}')
+      if (savedChild.name) {
+        setChildName(savedChild.name)
+        setChildId(savedChild.id || 'local-child')
+      }
+      
+      // Load from localStorage for episodes/strategies
+      const savedEpisodes = JSON.parse(localStorage.getItem('episodes') || '[]')
+      setEpisodes(savedEpisodes)
+      
+      const savedStrategies = JSON.parse(localStorage.getItem('strategies') || '[]')
+      setStrategies(savedStrategies)
+      
+      setLoading(false)
+      return
+    }
+
     async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setLoading(false); return }
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) { setLoading(false); return }
 
-      // Get child profile
-      const { data: child } = await supabase.from('children').select('id, name').eq('user_id', user.id).limit(1).single()
-      if (!child) { setLoading(false); return }
-      setChildId(child.id)
-      setChildName(child.name)
+        // Get child profile
+        const { data: child } = await supabase.from('children').select('id, name').eq('user_id', user.id).limit(1).single()
+        if (!child) { setLoading(false); return }
+        setChildId(child.id)
+        setChildName(child.name)
 
-      // Get team access entries
-      const { data: access } = await supabase
-        .from('child_profile_access')
-        .select('user_id, role')
-        .eq('child_id', child.id)
+        // Get team access entries
+        const { data: access } = await supabase
+          .from('child_profile_access')
+          .select('user_id, role')
+          .eq('child_id', child.id)
 
-      // For the UI we show the user_id and role; in production you'd join to a users/profiles table
-      const members: TeamMember[] = (access || []).map((a: ChildProfileAccess) => ({
-        user_id: a.user_id,
-        email: a.user_id.slice(0, 8) + '…', // placeholder until user profiles table exists
-        role: a.role
-      }))
-      setTeamMembers(members)
+        // For the UI we show the user_id and role; in production you'd join to a users/profiles table
+        const members: TeamMember[] = (access || []).map((a: ChildProfileAccess) => ({
+          user_id: a.user_id,
+          email: a.user_id.slice(0, 8) + '…', // placeholder until user profiles table exists
+          role: a.role
+        }))
+        setTeamMembers(members)
 
-      // Get episodes
-      const { data: eps } = await supabase
-        .from('episodes')
-        .select('*')
-        .eq('child_id', child.id)
-        .order('created_at', { ascending: false })
-        .limit(15)
-      setEpisodes(eps || [])
+        // Get episodes
+        const { data: eps } = await supabase
+          .from('episodes')
+          .select('*')
+          .eq('child_id', child.id)
+          .order('created_at', { ascending: false })
+          .limit(15)
+        setEpisodes(eps || [])
 
-      // Get strategies
-      const { data: strats } = await supabase.from('strategies').select('*').eq('child_id', child.id)
-      setStrategies(strats || [])
-
+        // Get strategies
+        const { data: strats } = await supabase.from('strategies').select('*').eq('child_id', child.id)
+        setStrategies(strats || [])
+      } catch (e) {
+        console.error('Error loading team data:', e)
+      }
       setLoading(false)
     }
     load()
@@ -77,11 +99,24 @@ export default function TeamPage() {
     if (!email || !childId) return
     setInviteLoading(true)
     setMessage(null)
+    
+    if (!supabase) {
+      // Offline mode - save to localStorage
+      const waitlist = JSON.parse(localStorage.getItem('caregiverInvites') || '[]')
+      if (!waitlist.includes(email)) {
+        waitlist.push(email)
+        localStorage.setItem('caregiverInvites', JSON.stringify(waitlist))
+      }
+      setMessage({ text: 'Invite saved! (Offline mode - will sync when backend is connected)', type: 'success' })
+      setEmail('')
+      setTeamMembers(prev => [...prev, { user_id: email, email: email, role: 'caregiver' }])
+      setInviteLoading(false)
+      return
+    }
+
     try {
-      // Look up user by email (requires a profiles table or auth admin API in production)
-      // For demo, we insert directly with a placeholder user_id
       const { error } = await supabase.from('child_profile_access').insert({
-        user_id: email, // In production, resolve email → user_id
+        user_id: email,
         child_id: childId,
         role: 'caregiver'
       })
@@ -112,6 +147,11 @@ export default function TeamPage() {
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--background)' }}>
+      {isOfflineMode && (
+        <div style={{ background: '#FEF3C7', padding: '12px 16px', textAlign: 'center', color: '#92400E', fontSize: '0.875rem' }}>
+          ⚠️ Offline mode - connect Supabase to enable full features
+        </div>
+      )}
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '32px 24px' }}>
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Care Team' }]} />
 

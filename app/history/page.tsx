@@ -2,9 +2,6 @@
 
 export const dynamic = 'force-dynamic';
 
-
-
-
 import { useEffect, useState } from 'react'
 import { createClient } from '../../lib/supabase/client'
 import Breadcrumbs from '../components/Breadcrumbs'
@@ -14,20 +11,34 @@ export default function HistoryPage() {
   const supabase = createClient()
   const [episodes, setEpisodes] = useState<Episode[]>([])
   const [loading, setLoading] = useState(true)
+  const [isOfflineMode, setIsOfflineMode] = useState(false)
 
   useEffect(() => {
+    if (!supabase) {
+      // Offline mode - load from localStorage
+      const saved = JSON.parse(localStorage.getItem('episodes') || '[]')
+      setEpisodes(saved)
+      setIsOfflineMode(true)
+      setLoading(false)
+      return
+    }
+
     async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setLoading(false); return }
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) { setLoading(false); return }
 
-      const { data } = await supabase
-        .from('episodes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(50)
+        const { data } = await supabase
+          .from('episodes')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(50)
 
-      setEpisodes(data || [])
+        setEpisodes(data || [])
+      } catch (e) {
+        console.error('Error loading history:', e)
+      }
       setLoading(false)
     }
     load()
@@ -36,6 +47,11 @@ export default function HistoryPage() {
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--background)' }}>
+      {isOfflineMode && (
+        <div style={{ background: '#FEF3C7', padding: '12px 16px', textAlign: 'center', color: '#92400E', fontSize: '0.875rem' }}>
+          ⚠️ Offline mode - data loaded from local storage
+        </div>
+      )}
       <div style={{ maxWidth: 750, margin: '0 auto', padding: '32px 24px' }}>
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'History' }]} />
 

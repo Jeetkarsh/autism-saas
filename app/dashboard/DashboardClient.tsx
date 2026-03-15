@@ -33,6 +33,7 @@ export default function DashboardClient({
 }) {
   const router = useRouter()
   const supabase = createClient()
+  const [isOfflineMode, setIsOfflineMode] = useState(false)
   
   const [user] = useState<User>(initialUser)
   const [childName, setChildName] = useState<string>(initialChildData?.name || '')
@@ -57,6 +58,31 @@ export default function DashboardClient({
   const [nameTouched, setNameTouched] = useState(false)
   const [ageTouched, setAgeTouched] = useState(false)
   const [checkedInToday, setCheckedInToday] = useState(initialCheckedInToday)
+
+  // Check for offline mode on mount
+  useEffect(() => {
+    if (!supabase) {
+      setIsOfflineMode(true)
+      // Load from localStorage
+      const savedChild = JSON.parse(localStorage.getItem('childProfile') || '{}')
+      if (savedChild.name) {
+        setChildName(savedChild.name)
+        setChildAge(savedChild.age?.toString() || '')
+        setChildId(savedChild.id || 'local-child')
+        setIsEditing(false)
+      }
+      
+      const savedStats = JSON.parse(localStorage.getItem('userStats') || '{}')
+      if (savedStats.streak) setStreak(savedStats.streak)
+      if (savedStats.total_sessions) setSessions(savedStats.total_sessions)
+      if (savedStats.milestones) setMilestones(savedStats.milestones)
+      
+      // For offline mode, always show editing prompt unless child is set up
+      if (!savedChild.name) {
+        setIsEditing(true)
+      }
+    }
+  }, [supabase])
 
   const validateName = (value: string) => {
     const result = nameSchema.safeParse(value)
@@ -90,21 +116,31 @@ export default function DashboardClient({
     if (nErr || aErr) return
     if (!user) return
 
-    if (childId) {
-      // Update existing child
-      await supabase.from('children').update({
-        name: childName,
-        age: childAge ? parseInt(childAge) : null
-      }).eq('id', childId)
+    if (supabase) {
+      if (childId) {
+        await supabase.from('children').update({
+          name: childName,
+          age: childAge ? parseInt(childAge) : null
+        }).eq('id', childId)
+      } else {
+        const { data } = await supabase.from('children').insert({
+          user_id: user.id,
+          name: childName,
+          age: childAge ? parseInt(childAge) : null
+        }).select()
+        
+        if (data && data.length > 0) setChildId(data[0].id)
+      }
     } else {
-      // Insert new child
-      const { data } = await supabase.from('children').insert({
-        user_id: user.id,
+      // Offline mode - save to localStorage
+      const childProfile = {
+        id: childId || 'local-' + Date.now(),
         name: childName,
-        age: childAge ? parseInt(childAge) : null
-      }).select()
-      
-      if (data && data.length > 0) setChildId(data[0].id)
+        age: childAge ? parseInt(childAge) : null,
+        user_id: user.id
+      }
+      localStorage.setItem('childProfile', JSON.stringify(childProfile))
+      setChildId(childProfile.id)
     }
     
     setIsEditing(false)
@@ -114,7 +150,9 @@ export default function DashboardClient({
     if (updatedMilestones.length > 0 && !updatedMilestones[0].completed) {
       updatedMilestones[0].completed = true
       setMilestones(updatedMilestones)
-      await supabase.from('user_stats').update({ milestones: updatedMilestones }).eq('user_id', user.id)
+      if (!supabase) {
+        localStorage.setItem('userStats', JSON.stringify({ streak, total_sessions: sessions, milestones: updatedMilestones }))
+      }
     }
   }
 
@@ -124,12 +162,30 @@ export default function DashboardClient({
       return
     }
 
-    const { data: newLog } = await supabase.from('activity_logs').insert({
-      user_id: user.id,
-      child_id: childId,
-      type,
-      value
-    }).select().single()
+    let newLog: any = null
+    
+    if (!supabase) {
+      // Offline mode - save to localStorage
+      newLog = {
+        id: 'log-' + Date.now(),
+        user_id: user.id,
+        child_id: childId,
+        type,
+        value,
+        timestamp: new Date().toISOString()
+      }
+      const savedLogs = JSON.parse(localStorage.getItem('activityLogs') || '[]')
+      savedLogs.unshift(newLog)
+      localStorage.setItem('activityLogs', JSON.stringify(savedLogs.slice(0, 50)))
+    } else {
+      const { data } = await supabase.from('activity_logs').insert({
+        user_id: user.id,
+        child_id: childId,
+        type,
+        value
+      }).select().single()
+      newLog = data
+    }
 
     if (newLog) {
       const updatedLogs = [newLog, ...logs].slice(0, 50)
@@ -137,8 +193,10 @@ export default function DashboardClient({
       
       const newSessions = sessions + 1
       setSessions(newSessions)
-      
-      await supabase.from('user_stats').update({ total_sessions: newSessions }).eq('user_id', user.id)
+
+      if (!supabase) {
+        localStorage.setItem('userStats', JSON.stringify({ streak, total_sessions: newSessions, milestones }))
+      }
 
       checkMilestones(updatedLogs, newSessions)
 
@@ -164,21 +222,38 @@ export default function DashboardClient({
       hasChanges = true
     }
 
-    if (hasChanges && user) {
+    if (hasChanges) {
       setMilestones(updatedMilestones)
-      await supabase.from('user_stats').update({ milestones: updatedMilestones }).eq('user_id', user.id)
+      if (!supabase) {
+        localStorage.setItem('userStats', JSON.stringify({ streak, total_sessions: sessions, milestones: updatedMilestones }))
+      }
     }
   }
 
   const handleCheckIn = async (data: { sleepQuality: string; routineChanges: boolean; sensoryEnvironment: string }) => {
     if (!user || !childId) return
-    await supabase.from('check_ins').insert({
-      user_id: user.id,
-      child_id: childId,
-      sleep_quality: data.sleepQuality,
-      routine_changes: data.routineChanges,
-      sensory_environment: data.sensoryEnvironment
-    })
+    
+    if (!supabase) {
+      // Offline mode - save to localStorage
+      const checkIns = JSON.parse(localStorage.getItem('checkIns') || '[]')
+      checkIns.push({
+        id: 'checkin-' + Date.now(),
+        child_id: childId,
+        sleep_quality: data.sleepQuality,
+        routine_changes: data.routineChanges,
+        sensory_environment: data.sensoryEnvironment,
+        created_at: new Date().toISOString()
+      })
+      localStorage.setItem('checkIns', JSON.stringify(checkIns))
+    } else {
+      await supabase.from('check_ins').insert({
+        user_id: user.id,
+        child_id: childId,
+        sleep_quality: data.sleepQuality,
+        routine_changes: data.routineChanges,
+        sensory_environment: data.sensoryEnvironment
+      })
+    }
     setCheckedInToday(true)
   }
 
@@ -193,6 +268,11 @@ export default function DashboardClient({
 
   return (
     <main className="min-h-screen bg-background">
+      {isOfflineMode && (
+        <div style={{ background: '#FEF3C7', padding: '12px 16px', textAlign: 'center', color: '#92400E', fontSize: '0.875rem' }}>
+          ⚠️ Offline mode - using localStorage. Connect Supabase for full features.
+        </div>
+      )}
       <div className="dashboard-container">
         {/* Breadcrumbs */}
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Dashboard' }]} />
@@ -218,6 +298,7 @@ export default function DashboardClient({
                   setChildName(data.name)
                   setChildAge(data.age)
                   if (!user) return
+                  
                   const profileData = {
                     name: data.name,
                     age: data.age ? parseInt(data.age) : null,
@@ -226,7 +307,16 @@ export default function DashboardClient({
                     strategies: data.strategies,
                     what_not_to_do: data.whatNotToDo,
                   }
-                  if (childId) {
+                  
+                  if (!supabase) {
+                    const childProfile = {
+                      id: childId || 'local-' + Date.now(),
+                      ...profileData,
+                      user_id: user.id
+                    }
+                    localStorage.setItem('childProfile', JSON.stringify(childProfile))
+                    setChildId(childProfile.id)
+                  } else if (childId) {
                     await supabase.from('children').update(profileData).eq('id', childId)
                   } else {
                     const { data: inserted } = await supabase.from('children').insert({
@@ -241,7 +331,6 @@ export default function DashboardClient({
                   if (updatedMilestones.length > 0 && !updatedMilestones[0].completed) {
                     updatedMilestones[0].completed = true
                     setMilestones(updatedMilestones)
-                    await supabase.from('user_stats').update({ milestones: updatedMilestones }).eq('user_id', user.id)
                   }
                 }}
               />
@@ -665,8 +754,7 @@ export default function DashboardClient({
         /* Activity */
         .activity-list {
           display: flex;
-          flex-direction: column;
-          gap: 12px;
+          flexDirection: 'column', gap: 12px };
         }
 
         .activity-item {

@@ -2,9 +2,6 @@
 
 export const dynamic = 'force-dynamic';
 
-
-
-
 import { useEffect, useState } from 'react'
 import { createClient } from '../../lib/supabase/client'
 import Breadcrumbs from '../components/Breadcrumbs'
@@ -24,30 +21,46 @@ export default function AnalyticsPage() {
   const [episodes, setEpisodes] = useState<Episode[]>([])
   const [strategies, setStrategies] = useState<Strategy[]>([])
   const [loading, setLoading] = useState(true)
+  const [isOfflineMode, setIsOfflineMode] = useState(false)
 
   useEffect(() => {
+    if (!supabase) {
+      // Offline mode - load from localStorage
+      const savedEpisodes = JSON.parse(localStorage.getItem('episodes') || '[]')
+      const savedStrategies = JSON.parse(localStorage.getItem('strategies') || '[]')
+      setEpisodes(savedEpisodes)
+      setStrategies(savedStrategies)
+      setIsOfflineMode(true)
+      setLoading(false)
+      return
+    }
+
     async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setLoading(false); return }
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) { setLoading(false); return }
 
-      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
-      const { data: eps } = await supabase
-        .from('episodes')
-        .select('*')
-        .eq('user_id', user.id)
-        .gte('created_at', thirtyDaysAgo)
-        .order('created_at', { ascending: false })
+        const { data: eps } = await supabase
+          .from('episodes')
+          .select('*')
+          .eq('user_id', user.id)
+          .gte('created_at', thirtyDaysAgo)
+          .order('created_at', { ascending: false })
 
-      const { data: childRow } = await supabase.from('children').select('id').eq('user_id', user.id).limit(1).single()
-      let strats: Strategy[] = []
-      if (childRow) {
-        const { data: s } = await supabase.from('strategies').select('*').eq('child_id', childRow.id)
-        strats = s || []
+        const { data: childRow } = await supabase.from('children').select('id').eq('user_id', user.id).limit(1).single()
+        let strats: Strategy[] = []
+        if (childRow) {
+          const { data: s } = await supabase.from('strategies').select('*').eq('child_id', childRow.id)
+          strats = s || []
+        }
+
+        setEpisodes(eps || [])
+        setStrategies(strats)
+      } catch (e) {
+        console.error('Error loading analytics:', e)
       }
-
-      setEpisodes(eps || [])
-      setStrategies(strats)
       setLoading(false)
     }
     load()
@@ -96,6 +109,11 @@ export default function AnalyticsPage() {
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--background)' }}>
+      {isOfflineMode && (
+        <div style={{ background: '#FEF3C7', padding: '12px 16px', textAlign: 'center', color: '#92400E', fontSize: '0.875rem' }}>
+          ⚠️ Offline mode - analytics based on local storage data
+        </div>
+      )}
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '32px 24px' }}>
         <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Analytics' }]} />
 

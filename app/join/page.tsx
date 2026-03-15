@@ -2,9 +2,6 @@
 
 export const dynamic = 'force-dynamic';
 
-
-
-
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '../../lib/supabase/client'
@@ -23,13 +20,6 @@ export default function Join() {
 
   useEffect(() => {
     setIsClient(true)
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        setIsSuccess(true)
-      }
-    }
-    checkSession()
   }, [])
 
   const validateEmail = (value) => {
@@ -64,6 +54,18 @@ export default function Join() {
     const validationError = validateEmail(email)
     if (validationError) {
       setError(validationError)
+      return
+    }
+
+    // If Supabase is not configured, save to localStorage as fallback
+    if (!supabase) {
+      // Save email to localStorage waitlist
+      const waitlist = JSON.parse(localStorage.getItem('waitlist') || '[]')
+      if (!waitlist.includes(email)) {
+        waitlist.push(email)
+        localStorage.setItem('waitlist', JSON.stringify(waitlist))
+      }
+      setIsSuccess(true)
       return
     }
 
@@ -110,9 +112,12 @@ export default function Join() {
                 <polyline points="22 4 12 14.01 9 11.01"/>
               </svg>
             </div>
-            <h1 className="join-title">Check your email!</h1>
+            <h1 className="join-title">{supabase ? 'Check your email!' : "You're on the list!"}</h1>
             <p className="join-subtitle">
-              We've sent a magic login link to <strong>{email}</strong>. Click it to enter the platform.
+              {supabase 
+                ? `We've sent a magic login link to <strong>${email}</strong>. Click it to enter the platform.`
+                : `You've been added to the waitlist with <strong>${email}</strong>. We'll notify you when access is ready!`
+              }
             </p>
             <div className="success-features">
               <div className="success-feature">
