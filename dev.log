@@ -117,3 +117,214 @@
  GET /_next/static/chunks/app-pages-internals.js 404 in 48ms
  GET /_next/static/chunks/main-app.js?v=1773592443298 404 in 40ms
  GET /_next/static/chunks/app-pages-internals.js 404 in 19ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, lstat '/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/.next/server/app/api'
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/api/kb/health/route' in /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/.next/server/app/api/kb/health/route.js', but to 'Error: Can't resolve '../../../../.next/server/app/api/kb/health/route' in '/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/api/kb/health/route (expected /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/.next/server/app/api/kb/health/route.js)
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server/require.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server/load-components.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/utils.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-app-loader.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-app-loader.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/swc/index.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/swc/index.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/analysis/parse-module.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/analysis/parse-module.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/analysis/get-page-static-info.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/analysis/get-page-static-info.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
+<w>  at resolve commonjs /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/api/kb/documents/route' in /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/.next/server/app/api/kb/documents/route.js', but to 'Error: Can't resolve '../../../../.next/server/app/api/kb/documents/route' in '/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/api/kb/documents/route (expected /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/.next/server/app/api/kb/documents/route.js)
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server/require.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server/load-components.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/utils.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-app-loader.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-app-loader.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/webpack/bundle5.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/compiled/webpack/webpack.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/plugins/define-env-plugin.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/swc/index.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/swc/index.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/analysis/parse-module.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/analysis/parse-module.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/analysis/get-page-static-info.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/analysis/get-page-static-info.js
+<w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
+<w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
+<w>  at resolve commonjs /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
+   Reload env: .env.local
+ ✓ Compiled in 174ms (949 modules)
+ ⨯ ./app/analytics/page.tsx
+Error: 
+  [31mx[0m The "use client" directive must be placed before other expressions. Move it to the top of the file to resolve this issue.
+   ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:2:1]
+ [2m2[0m | 
+ [2m3[0m | export const dynamic = 'force-dynamic';
+ [2m4[0m | 
+ [2m5[0m | 'use client'
+   : [31;1m^^^^^^^^^^^^[0m
+ [2m6[0m | 
+ [2m7[0m | import { useEffect, useState } from 'react'
+ [2m8[0m | import { createClient } from '../../lib/supabase/client'
+   `----
+
+Import trace for requested module:
+./app/analytics/page.tsx
+ ⨯ ./app/analytics/page.tsx
+Error: 
+  [31mx[0m the name `dynamic` is defined multiple times
+   ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:1:1]
+ [2m1[0m | export const dynamic = 'force-dynamic';
+   : [31;1m             ^^^|^^^[0m
+   :                 [31;1m`-- [31;1mprevious definition of `dynamic` here[0m[0m
+ [2m2[0m | 'use client'
+ [2m3[0m | 
+ [2m4[0m | export const dynamic = 'force-dynamic';
+   : [33;1m             ^^^|^^^[0m
+   :                 [33;1m`-- [33;1m`dynamic` redefined here[0m[0m
+ [2m5[0m | 
+ [2m6[0m | 'use client'
+   `----
+
+  [31mx[0m The "use client" directive must be placed before other expressions. Move it to the top of the file to resolve this issue.
+   ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:1:1]
+ [2m1[0m | export const dynamic = 'force-dynamic';
+ [2m2[0m | 'use client'
+   : [31;1m^^^^^^^^^^^^[0m
+ [2m3[0m | 
+ [2m4[0m | export const dynamic = 'force-dynamic';
+   `----
+
+  [31mx[0m The "use client" directive must be placed before other expressions. Move it to the top of the file to resolve this issue.
+   ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:3:1]
+ [2m3[0m | 
+ [2m4[0m | export const dynamic = 'force-dynamic';
+ [2m5[0m | 
+ [2m6[0m | 'use client'
+   : [31;1m^^^^^^^^^^^^[0m
+ [2m7[0m | 
+ [2m8[0m | import { useEffect, useState } from 'react'
+ [2m9[0m | import { createClient } from '../../lib/supabase/client'
+   `----
+
+  [31mx[0m You're importing a component that needs useEffect. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [31m|[0m 
+  [31m|[0m 
+    ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:5:1]
+ [2m 5[0m | 
+ [2m 6[0m | 'use client'
+ [2m 7[0m | 
+ [2m 8[0m | import { useEffect, useState } from 'react'
+    : [31;1m         ^^^^^^^^^[0m
+ [2m 9[0m | import { createClient } from '../../lib/supabase/client'
+ [2m10[0m | import Breadcrumbs from '../components/Breadcrumbs'
+ [2m11[0m | import type { Episode, Strategy } from '../../lib/types/database'
+    `----
+
+  [31mx[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [31m|[0m 
+  [31m|[0m 
+    ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:5:1]
+ [2m 5[0m | 
+ [2m 6[0m | 'use client'
+ [2m 7[0m | 
+ [2m 8[0m | import { useEffect, useState } from 'react'
+    : [31;1m                    ^^^^^^^^[0m
+ [2m 9[0m | import { createClient } from '../../lib/supabase/client'
+ [2m10[0m | import Breadcrumbs from '../components/Breadcrumbs'
+ [2m11[0m | import type { Episode, Strategy } from '../../lib/types/database'
+    `----
+
+Import trace for requested module:
+./app/analytics/page.tsx
+ ⨯ ./app/analytics/page.tsx
+Error: 
+  [31mx[0m the name `dynamic` is defined multiple times
+   ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:1:1]
+ [2m1[0m | export const dynamic = 'force-dynamic';
+   : [31;1m             ^^^|^^^[0m
+   :                 [31;1m`-- [31;1mprevious definition of `dynamic` here[0m[0m
+ [2m2[0m | 'use client'
+ [2m3[0m | 
+ [2m4[0m | export const dynamic = 'force-dynamic';
+   : [33;1m             ^^^|^^^[0m
+   :                 [33;1m`-- [33;1m`dynamic` redefined here[0m[0m
+ [2m5[0m | 
+ [2m6[0m | 'use client'
+   `----
+
+  [31mx[0m The "use client" directive must be placed before other expressions. Move it to the top of the file to resolve this issue.
+   ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:1:1]
+ [2m1[0m | export const dynamic = 'force-dynamic';
+ [2m2[0m | 'use client'
+   : [31;1m^^^^^^^^^^^^[0m
+ [2m3[0m | 
+ [2m4[0m | export const dynamic = 'force-dynamic';
+   `----
+
+  [31mx[0m The "use client" directive must be placed before other expressions. Move it to the top of the file to resolve this issue.
+   ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:3:1]
+ [2m3[0m | 
+ [2m4[0m | export const dynamic = 'force-dynamic';
+ [2m5[0m | 
+ [2m6[0m | 'use client'
+   : [31;1m^^^^^^^^^^^^[0m
+ [2m7[0m | 
+ [2m8[0m | import { useEffect, useState } from 'react'
+ [2m9[0m | import { createClient } from '../../lib/supabase/client'
+   `----
+
+  [31mx[0m You're importing a component that needs useEffect. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [31m|[0m 
+  [31m|[0m 
+    ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:5:1]
+ [2m 5[0m | 
+ [2m 6[0m | 'use client'
+ [2m 7[0m | 
+ [2m 8[0m | import { useEffect, useState } from 'react'
+    : [31;1m         ^^^^^^^^^[0m
+ [2m 9[0m | import { createClient } from '../../lib/supabase/client'
+ [2m10[0m | import Breadcrumbs from '../components/Breadcrumbs'
+ [2m11[0m | import type { Episode, Strategy } from '../../lib/types/database'
+    `----
+
+  [31mx[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [31m|[0m 
+  [31m|[0m 
+    ,-[[36;1;4m/Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/app/analytics/page.tsx[0m:5:1]
+ [2m 5[0m | 
+ [2m 6[0m | 'use client'
+ [2m 7[0m | 
+ [2m 8[0m | import { useEffect, useState } from 'react'
+    : [31;1m                    ^^^^^^^^[0m
+ [2m 9[0m | import { createClient } from '../../lib/supabase/client'
+ [2m10[0m | import Breadcrumbs from '../components/Breadcrumbs'
+ [2m11[0m | import type { Episode, Strategy } from '../../lib/types/database'
+    `----
+
+Import trace for requested module:
+./app/analytics/page.tsx

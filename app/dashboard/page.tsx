@@ -1,3 +1,8 @@
+export const dynamic = 'force-dynamic';
+'use client'
+
+export const dynamic = 'force-dynamic';
+
 import DashboardClient from './DashboardClient'
 
 export default async function DashboardPage() {
