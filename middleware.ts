@@ -1,14 +1,27 @@
-import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // Check if Supabase is configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  // If Supabase is not configured, skip Supabase logic entirely
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return NextResponse.next({
+      request,
+    })
+  }
+
+  // Dynamic import to avoid build errors when Supabase is not configured
+  const { createServerClient } = await import('@supabase/ssr')
+  
   let supabaseResponse = NextResponse.next({
     request,
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -27,8 +40,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session if expired - required for Server Components
-  // https://supabase.com/docs/guides/auth/server-side/nextjs
+  // Refresh session if expired
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -41,28 +53,11 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/wellness') ||
     request.nextUrl.pathname.startsWith('/admin')
 
-  // TEMPORARY BYPASS FOR VISUAL TESTING
-  // Since there is no live Supabase connection (Docker is offline), we skip the redirect
-  // to allow the user to view the Dashboard and other protected routes.
-  
-  // if (isProtectedRoute && !user) {
-  //   const url = request.nextUrl.clone()
-  //   url.pathname = '/join'
-  //   return NextResponse.redirect(url)
-  // }
-
   return supabaseResponse
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
