@@ -12,3 +12,4 @@ node_modules/
 knowledge_engine/data/
 knowledge_engine/__pycache__/
 knowledge_engine/**/__pycache__/
+.vercel

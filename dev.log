@@ -107,3 +107,13 @@
 <w>  at file dependencies /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
 <w>  at file /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
 <w>  at resolve commonjs /Users/jeetkarsh/.openclaw/workspace-ralph/projects/autism-saas/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
+ ✓ Compiled in 196ms (433 modules)
+ ✓ Compiled /_not-found in 201ms (827 modules)
+ GET /admin/knowledge 404 in 49ms
+ GET /join 404 in 47ms
+ GET /_next/static/css/app/layout.css?v=1773592443267 404 in 29ms
+ GET /_next/static/css/app/layout.css?v=1773592443298 404 in 34ms
+ GET /_next/static/chunks/main-app.js?v=1773592443267 404 in 48ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 48ms
+ GET /_next/static/chunks/main-app.js?v=1773592443298 404 in 40ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 19ms

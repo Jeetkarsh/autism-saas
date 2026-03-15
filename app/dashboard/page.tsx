@@ -32,15 +32,20 @@ export default async function DashboardPage() {
   const mockLogsData = [
     {
       id: 'log-1',
-      timestamp: new Date().toISOString(),
+      user_id: 'test-user-123',
+      child_id: 'child-123',
       type: 'check_in',
-      mood_score: 4,
+      value: 'mood_good',
+      timestamp: new Date().toISOString(),
       notes: 'Had a good morning routine.'
     },
     {
       id: 'log-2',
-      timestamp: new Date(Date.now() - 86400000).toISOString(),
+      user_id: 'test-user-123',
+      child_id: 'child-123',
       type: 'episode',
+      value: 'meltdown',
+      timestamp: new Date(Date.now() - 86400000).toISOString(),
       severity: 'medium',
       trigger: 'Loud noise',
       duration: 15
