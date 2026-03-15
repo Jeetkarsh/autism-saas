@@ -7,3 +7,8 @@ node_modules/
 .next/
 .env
 .env.local
+
+# Knowledge Engine
+knowledge_engine/data/
+knowledge_engine/__pycache__/
+knowledge_engine/**/__pycache__/
