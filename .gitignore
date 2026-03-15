@@ -1,0 +1,9 @@
+# RALPH Loop
+.ralph/
+progress.txt
+.claude/settings.local.json
+
+node_modules/
+.next/
+.env
+.env.local
