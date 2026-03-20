@@ -14,6 +14,7 @@
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
     "next": "^14.2.24",
+    "nodemailer": "^8.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "twilio": "^5.13.0",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^16.2.0",
+    "@types/nodemailer": "^7.0.11",
     "@types/react": "19.2.14",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",

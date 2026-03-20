@@ -326,3 +326,38 @@ create index if not exists idx_episodes_created_at on public.episodes(created_at
 create index if not exists idx_strategies_child_id on public.strategies(child_id);
 create index if not exists idx_child_profile_access_user_id on public.child_profile_access(user_id);
 create index if not exists idx_child_profile_access_child_id on public.child_profile_access(child_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 20. Waitlist Table (email sequence tracking)
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.waitlist (
+  id uuid default gen_random_uuid() primary key,
+  email text not null unique,
+  name text,
+  referral_source text,
+  subscribed_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  -- Email sequence state machine: 1 (day-1 sent), 3 (day-3 sent), 7 (day-7 sent)
+  email_sequence_day integer default 1,
+  email_sent_at timestamp with time zone,
+  converted boolean default false,
+  converted_at timestamp with time zone
+);
+
+alter table public.waitlist enable row level security;
+
+-- Anyone can subscribe (no auth required); service role used by cron
+create policy "Waitlist: anyone can subscribe"
+  on public.waitlist for insert
+  with check (true);
+
+create policy "Waitlist: service role can view all"
+  on public.waitlist for select
+  using (true);
+
+create policy "Waitlist: service role can update (cron advances sequence)"
+  on public.waitlist for update
+  using (true);
+
+create index if not exists idx_waitlist_email_sequence
+  on public.waitlist(email_sequence_day, converted)
+  where converted = false;

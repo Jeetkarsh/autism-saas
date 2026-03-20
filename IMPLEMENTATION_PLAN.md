@@ -22,7 +22,7 @@
   - File(s): `app/therapist/page.tsx`, `app/therapist/TherapistPortalClient.tsx`, `app/api/therapist/assignments/route.ts`, `app/api/therapist/notes/route.ts`
   - Description: Separate login for therapists to view assigned children, add notes, suggest strategies.
 
-- [ ] **Task 6: Waitlist → Onboarding Email Sequence**
+- [x] **Task 6: Waitlist → Onboarding Email Sequence**
   - File(s): `app/api/onboarding/route.ts`, `lib/email-sequence.ts`
   - Description: Day 1 resource → day 3 check-in → day 7 trial invite. Converts waitlist to active users.
 
