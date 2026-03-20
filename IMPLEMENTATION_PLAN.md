@@ -26,8 +26,8 @@
   - File(s): `app/api/onboarding/route.ts`, `lib/email-sequence.ts`
   - Description: Day 1 resource → day 3 check-in → day 7 trial invite. Converts waitlist to active users.
 
-- [ ] **Task 7: RAG Service Deployment**
-  - File(s): `rag/`, `app/api/kb/*`
+- [x] **Task 7: RAG Service Deployment**
+  - File(s): `rag_service/`, `app/api/kb/*`
   - Description: Deploy vector DB (Pinecone/pgvector) for RAG. Connect chatbot to real knowledge base.
 
 - [ ] **Task 8: Push Notifications**

@@ -1,0 +1,54 @@
+# NeuroBridge RAG Service — Docker Compose
+# Brings up the RAG Python service + PostgreSQL with pgvector.
+#
+# Usage:
+#   docker compose up --build rag-service
+#
+# The Next.js app connects to: http://localhost:8100
+# Set RAG_SERVICE_URL=http://localhost:8100 in your .env.local
+
+services:
+  pgvector:
+    image: ankane/pgvector:v0.5.1
+    container_name: neurobridge-pgvector
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: neurobridge
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "54322:5432"
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rag-service:
+    build:
+      context: .
+      dockerfile: rag_service.Dockerfile
+    container_name: neurobridge-rag
+    restart: unless-stopped
+    depends_on:
+      pgvector:
+        condition: service_healthy
+    environment:
+      RAG_API_KEY: ${RAG_API_KEY:-development_secret_key}
+      DATABASE_URL: postgresql://postgres:postgres@pgvector:5432/neurobridge
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-ada-002}
+      PORT: 8100
+    ports:
+      - "8100:8100"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8100/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  pgvector_data:
