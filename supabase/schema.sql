@@ -9,6 +9,7 @@ create table if not exists public.profiles (
   email text,
   whatsapp_phone text,
   whatsapp_prefs jsonb default '{"enabled": false}'::jsonb,
+  push_subscriptions jsonb default '[]'::jsonb,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

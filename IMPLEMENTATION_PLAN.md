@@ -30,8 +30,8 @@
   - File(s): `rag_service/`, `app/api/kb/*`
   - Description: Deploy vector DB (Pinecone/pgvector) for RAG. Connect chatbot to real knowledge base.
 
-- [ ] **Task 8: Push Notifications**
-  - File(s): `app/api/push/route.ts`, `lib/push-service.ts`
+- [x] **Task 8: Push Notifications**
+  - File(s): `app/api/push/route.ts`, `app/api/push/subscription/route.ts`, `app/api/push/cron/daily/route.ts`, `app/api/push/cron/weekly/route.ts`, `lib/push-service.ts`
   - Description: Web push for milestones, daily reminders, weekly report ready.
 
 - [ ] **Task 9: PWA + Performance**
