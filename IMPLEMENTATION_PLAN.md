@@ -6,7 +6,7 @@
   - File(s): `middleware.ts`, `lib/supabase/server.ts`, `lib/supabase/client.ts`
   - Description: Wire up real Supabase auth. Create sign-up/sign-in flows, session management. Replace mock test user with real auth.
 
-- [ ] **Task 2: Supabase Database Schema**
+- [x] **Task 2: Supabase Database Schema**
   - File(s): `lib/types/database.ts`, `supabase/schema.sql`
   - Description: Create DB tables: children, activity_logs, episodes, strategies, check_ins, milestones. Update TypeScript interfaces.
 
