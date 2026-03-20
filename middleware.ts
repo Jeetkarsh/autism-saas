@@ -45,13 +45,28 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const isProtectedRoute = 
-    request.nextUrl.pathname.startsWith('/dashboard') || 
-    request.nextUrl.pathname.startsWith('/analytics') || 
-    request.nextUrl.pathname.startsWith('/history') || 
+  const isProtectedRoute =
+    request.nextUrl.pathname.startsWith('/dashboard') ||
+    request.nextUrl.pathname.startsWith('/analytics') ||
+    request.nextUrl.pathname.startsWith('/history') ||
     request.nextUrl.pathname.startsWith('/team') ||
     request.nextUrl.pathname.startsWith('/wellness') ||
     request.nextUrl.pathname.startsWith('/admin')
+
+  if (!user && isProtectedRoute) {
+    const loginUrl = request.nextUrl.clone()
+    loginUrl.pathname = '/login'
+    loginUrl.searchParams.set('next', request.nextUrl.pathname)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  // Redirect authenticated users away from login page
+  if (user && request.nextUrl.pathname === '/login') {
+    const dashboardUrl = request.nextUrl.clone()
+    dashboardUrl.pathname = '/dashboard'
+    dashboardUrl.search = ''
+    return NextResponse.redirect(dashboardUrl)
+  }
 
   return supabaseResponse
 }

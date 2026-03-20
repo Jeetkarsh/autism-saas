@@ -30,19 +30,41 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 | `/dashboard` | Parent dashboard with child profile, streak counter, milestones |
 | `/resources` | Content hub with blog posts and search |
 
-## Deployment to Vercel
+## Deployment to Vercel (GitHub Auto-Deploy)
 
-### Option 1: GitHub Auto-Deploy (Recommended)
+### Step 1: Configure Vercel Project
 
-1. Push code to GitHub
-2. Create a Vercel project: https://vercel.com/new
-3. Import your GitHub repository
-4. Add these Environment Variables in Vercel project settings:
-   - `NEXT_PUBLIC_SUPABASE_URL` — Your Supabase project URL
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Your Supabase anon key
-5. Deploy! The GitHub Actions workflow (`.github/workflows/deploy.yml`) will auto-deploy on push to main
+1. Create a Vercel project: https://vercel.com/new
+2. Import your GitHub repository
+3. Note your `ORG_ID` and `PROJECT_ID` from the project Settings page
 
-### Option 2: Manual Vercel CLI
+### Step 2: Create Vercel Token
+
+1. Go to https://vercel.com/account/tokens
+2. Create a new token with a name like "GitHub Actions"
+3. Copy the token (shown only once!)
+
+### Step 3: Add GitHub Secrets
+
+In your GitHub repo, go to **Settings → Secrets and variables → Actions**, and add these secrets:
+
+| Secret Name | Where to Find |
+|-------------|---------------|
+| `VERCEL_TOKEN` | https://vercel.com/account/tokens (create new) |
+| `VERCEL_ORG_ID` | Vercel project Settings → General → scroll to "Project ID" |
+| `VERCEL_PROJECT_ID` | Vercel project Settings → General → scroll to "Project ID" |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project → Settings → API → Project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase project → Settings → API → Project API keys (anon key) |
+
+> **Note:** If you don't have Supabase yet, you can leave those two secrets empty for now—the app will work with local storage only.
+
+### Step 4: Deploy
+
+Push any change to the `main` branch. The GitHub Actions workflow (`.github/workflows/deploy.yml`) will automatically deploy to Vercel.
+
+---
+
+### Manual Vercel CLI (Alternative)
 
 ```bash
 npm i -g vercel
@@ -56,7 +78,7 @@ To enable real data persistence:
 1. Create a Supabase project at https://supabase.com
 2. Set up your tables (see `/supabase` folder for schemas)
 3. Update `.env.local` with your credentials
-4. Add the same variables to Vercel
+4. Add the same variables to Vercel and GitHub Secrets
 
 ## Project Status
 
