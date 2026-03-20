@@ -10,7 +10,7 @@
   - File(s): `lib/types/database.ts`, `supabase/schema.sql`
   - Description: Create DB tables: children, activity_logs, episodes, strategies, check_ins, milestones. Update TypeScript interfaces.
 
-- [ ] **Task 3: WhatsApp Parent Companion**
+- [x] **Task 3: WhatsApp Parent Companion**
   - File(s): `app/api/whatsapp/route.ts`, `lib/whatsapp.ts`
   - Description: Twilio WhatsApp integration. Daily check-ins, milestone alerts, weekly summaries. India market focus.
 

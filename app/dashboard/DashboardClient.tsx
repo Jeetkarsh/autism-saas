@@ -118,17 +118,17 @@ export default function DashboardClient({
 
     if (supabase) {
       if (childId) {
-        await supabase.from('children').update({
+        await (supabase.from('children') as any).update({
           name: childName,
           age: childAge ? parseInt(childAge) : null
         }).eq('id', childId)
       } else {
-        const { data } = await supabase.from('children').insert({
+        const { data } = await (supabase.from('children') as any).insert({
           user_id: user.id,
           name: childName,
           age: childAge ? parseInt(childAge) : null
         }).select()
-        
+
         if (data && data.length > 0) setChildId(data[0].id)
       }
     } else {
@@ -178,7 +178,7 @@ export default function DashboardClient({
       savedLogs.unshift(newLog)
       localStorage.setItem('activityLogs', JSON.stringify(savedLogs.slice(0, 50)))
     } else {
-      const { data } = await supabase.from('activity_logs').insert({
+      const { data } = await (supabase.from('activity_logs') as any).insert({
         user_id: user.id,
         child_id: childId,
         type,
@@ -246,7 +246,7 @@ export default function DashboardClient({
       })
       localStorage.setItem('checkIns', JSON.stringify(checkIns))
     } else {
-      await supabase.from('check_ins').insert({
+      await (supabase.from('check_ins') as any).insert({
         user_id: user.id,
         child_id: childId,
         sleep_quality: data.sleepQuality,
@@ -317,9 +317,9 @@ export default function DashboardClient({
                     localStorage.setItem('childProfile', JSON.stringify(childProfile))
                     setChildId(childProfile.id)
                   } else if (childId) {
-                    await supabase.from('children').update(profileData).eq('id', childId)
+                    await (supabase.from('children') as any).update(profileData).eq('id', childId)
                   } else {
-                    const { data: inserted } = await supabase.from('children').insert({
+                    const { data: inserted } = await (supabase.from('children') as any).insert({
                       user_id: user.id,
                       ...profileData,
                     }).select()

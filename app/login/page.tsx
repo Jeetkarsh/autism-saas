@@ -140,7 +140,7 @@ function LoginForm() {
               <span className="logo-text">AutismConnect</span>
             </Link>
             <h1 className="login-title">Welcome back</h1>
-            <p className="login-subtitle">Sign in with your email — we'll send you a magic link.</p>
+            <p className="login-subtitle">Sign in with your email &mdash; we&#39;ll send you a magic link.</p>
           </div>
 
           {authError === 'auth_failed' && (

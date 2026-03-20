@@ -55,7 +55,7 @@ export default function TeamPage() {
         if (!user) { setLoading(false); return }
 
         // Get child profile
-        const { data: child } = await supabase.from('children').select('id, name').eq('user_id', user.id).limit(1).single()
+        const { data: child } = await (supabase.from('children') as any).select('id, name').eq('user_id', user.id).limit(1).single()
         if (!child) { setLoading(false); return }
         setChildId(child.id)
         setChildName(child.name)
@@ -84,7 +84,7 @@ export default function TeamPage() {
         setEpisodes(eps || [])
 
         // Get strategies
-        const { data: strats } = await supabase.from('strategies').select('*').eq('child_id', child.id)
+        const { data: strats } = await (supabase.from('strategies') as any).select('*').eq('child_id', child.id)
         setStrategies(strats || [])
       } catch (e) {
         console.error('Error loading team data:', e)
@@ -115,7 +115,7 @@ export default function TeamPage() {
     }
 
     try {
-      const { error } = await supabase.from('child_profile_access').insert({
+      const { error } = await (supabase.from('child_profile_access') as any).insert({
         user_id: email,
         child_id: childId,
         role: 'caregiver'

@@ -7,6 +7,8 @@
 create table if not exists public.profiles (
   id uuid references auth.users on delete cascade primary key,
   email text,
+  whatsapp_phone text,
+  whatsapp_prefs jsonb default '{"enabled": false}'::jsonb,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

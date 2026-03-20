@@ -49,10 +49,10 @@ export default function AnalyticsPage() {
           .gte('created_at', thirtyDaysAgo)
           .order('created_at', { ascending: false })
 
-        const { data: childRow } = await supabase.from('children').select('id').eq('user_id', user.id).limit(1).single()
+        const { data: childRow } = await supabase.from('children').select('id').eq('user_id', user.id).limit(1).single() as { data: { id: string } | null }
         let strats: Strategy[] = []
         if (childRow) {
-          const { data: s } = await supabase.from('strategies').select('*').eq('child_id', childRow.id)
+          const { data: s } = await supabase.from('strategies').select('*').eq('child_id', (childRow as { id: string }).id)
           strats = s || []
         }
 

@@ -1,5 +1,24 @@
 import type { SupabaseClient, User } from '@supabase/supabase-js'
 
+// ── Types referenced by Database (must come before it) ──────────────────────
+
+export interface Milestone {
+  id: number
+  title: string
+  completed: boolean
+}
+
+export interface WhatsAppPrefs {
+  enabled: boolean
+  phone: string | null
+  dailyCheckInTime: string
+  weeklySummaryDay: number
+  weeklySummaryTime: string
+  milestonesAlerts: boolean
+}
+
+// ── Database definition (all table types) ──────────────────────────────────
+
 export interface Database {
   public: {
     Tables: {
@@ -7,15 +26,21 @@ export interface Database {
         Row: {
           id: string
           email: string | null
+          whatsapp_phone: string | null
+          whatsapp_prefs: WhatsAppPrefs | null
           created_at: string
         }
         Insert: {
           id: string
           email?: string | null
+          whatsapp_phone?: string | null
+          whatsapp_prefs?: WhatsAppPrefs | null
           created_at?: string
         }
         Update: {
           email?: string | null
+          whatsapp_phone?: string | null
+          whatsapp_prefs?: WhatsAppPrefs | null
         }
       }
       children: {
@@ -220,11 +245,7 @@ export interface Database {
   }
 }
 
-export interface Milestone {
-  id: number
-  title: string
-  completed: boolean
-}
+// ── Derived types ────────────────────────────────────────────────────────────
 
 export type SupabaseClientType = SupabaseClient<Database>
 
