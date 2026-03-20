@@ -329,7 +329,37 @@ create index if not exists idx_child_profile_access_user_id on public.child_prof
 create index if not exists idx_child_profile_access_child_id on public.child_profile_access(child_id);
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- 20. Waitlist Table (email sequence tracking)
+-- 20. Subscriptions / Plans (Stripe)
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.subscriptions (
+  id uuid references public.profiles(id) on delete cascade primary key,
+  stripe_customer_id text unique,
+  stripe_subscription_id text unique,
+  plan text not null check (plan in ('free', 'pro')) default 'free',
+  status text not null check (status in ('active', 'canceled', 'past_due', 'trialing')) default 'active',
+  current_period_start timestamp with time zone,
+  current_period_end timestamp with time zone,
+  cancel_at_period_end boolean default false,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.subscriptions enable row level security;
+
+-- Users can view/update their own subscription
+create policy "Subscriptions: users can view own subscription"
+  on public.subscriptions for select
+  using (auth.uid() = id);
+
+create policy "Subscriptions: users can update own subscription"
+  on public.subscriptions for update
+  using (auth.uid() = id);
+
+create policy "Subscriptions: service role can insert (webhook creates row)"
+  on public.subscriptions for insert
+  with check (auth.uid() = id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 21. Waitlist Table (email sequence tracking)
 -- ─────────────────────────────────────────────────────────────────────────────
 create table if not exists public.waitlist (
   id uuid default gen_random_uuid() primary key,
@@ -362,3 +392,43 @@ create policy "Waitlist: service role can update (cron advances sequence)"
 create index if not exists idx_waitlist_email_sequence
   on public.waitlist(email_sequence_day, converted)
   where converted = false;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 21. Subscriptions (Stripe)
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.subscriptions (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  stripe_customer_id text not null,
+  stripe_subscription_id text not null,
+  stripe_price_id text,
+  status text not null default 'active',
+  plan text not null check (plan in ('free', 'basic', 'pro')),
+  current_period_start timestamp with time zone,
+  current_period_end timestamp with time zone,
+  cancel_at_period_end boolean default false,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  unique(user_id),
+  unique(stripe_customer_id)
+);
+
+alter table public.subscriptions enable row level security;
+
+create policy "Subscriptions: users can view own subscription"
+  on public.subscriptions for select
+  using (auth.uid() = user_id);
+
+create policy "Subscriptions: users can insert own subscription"
+  on public.subscriptions for insert
+  with check (auth.uid() = user_id);
+
+create policy "Subscriptions: users can update own subscription"
+  on public.subscriptions for update
+  using (auth.uid() = user_id);
+
+-- Index for webhook lookups
+create index if not exists idx_subscriptions_stripe_customer_id
+  on public.subscriptions(stripe_customer_id);
+
+create index if not exists idx_subscriptions_stripe_subscription_id
+  on public.subscriptions(stripe_subscription_id);

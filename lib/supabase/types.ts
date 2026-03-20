@@ -238,6 +238,44 @@ export interface Database {
           role?: 'primary' | 'caregiver' | 'therapist'
         }
       }
+      subscriptions: {
+        Row: {
+          id: string
+          user_id: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          stripe_price_id: string | null
+          status: string
+          plan: 'free' | 'basic' | 'pro'
+          current_period_start: string | null
+          current_period_end: string | null
+          cancel_at_period_end: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          stripe_price_id?: string | null
+          status?: string
+          plan: 'free' | 'basic' | 'pro'
+          current_period_start?: string | null
+          current_period_end?: string | null
+          cancel_at_period_end?: boolean
+          created_at?: string
+        }
+        Update: {
+          stripe_customer_id?: string
+          stripe_subscription_id?: string
+          stripe_price_id?: string | null
+          status?: string
+          plan?: 'free' | 'basic' | 'pro'
+          current_period_start?: string | null
+          current_period_end?: string | null
+          cancel_at_period_end?: boolean
+        }
+      }
     }
     Views: {}
     Functions: {}

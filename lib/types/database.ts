@@ -49,6 +49,12 @@ export type ChildProfileAccess = Database['public']['Tables']['child_profile_acc
 export type ChildProfileAccessInsert = Database['public']['Tables']['child_profile_access']['Insert']
 export type ChildProfileAccessUpdate = Database['public']['Tables']['child_profile_access']['Update']
 
+// ── Subscription ───────────────────────────────────────────────────────────
+export type Subscription = Database['public']['Tables']['subscriptions']['Row']
+export type SubscriptionInsert = Database['public']['Tables']['subscriptions']['Insert']
+export type SubscriptionUpdate = Database['public']['Tables']['subscriptions']['Update']
+export type Plan = 'free' | 'basic' | 'pro'
+
 export type CareTeamRole = ChildProfileAccess['role']
 
 // ── Enum-like unions ───────────────────────────────────────────────────────────

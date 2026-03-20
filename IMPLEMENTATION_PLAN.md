@@ -34,11 +34,11 @@
   - File(s): `app/api/push/route.ts`, `app/api/push/subscription/route.ts`, `app/api/push/cron/daily/route.ts`, `app/api/push/cron/weekly/route.ts`, `lib/push-service.ts`
   - Description: Web push for milestones, daily reminders, weekly report ready.
 
-- [ ] **Task 9: PWA + Performance**
-  - File(s): `next.config.js`, `manifest.json`, `public/sw.js`
+- [x] **Task 9: PWA + Performance**
+  - File(s): `next.config.js`, `manifest.json`, `public/sw.js`, `app/offline/page.tsx`, `app/components/ServiceWorkerRegistration.tsx`
   - Description: Service worker, offline support, PWA manifest. Lighthouse 90+.
 
-- [ ] **Task 10: Stripe Freemium Upgrade**
+- [x] **Task 10: Stripe Freemium Upgrade**
   - File(s): `app/api/stripe/*`, `app/pricing/page.tsx`
   - Description: Free = 1 child, basic. Paid = unlimited + PDF + WhatsApp.
 
