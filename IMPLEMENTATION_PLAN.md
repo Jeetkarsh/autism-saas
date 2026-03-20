@@ -14,7 +14,7 @@
   - File(s): `app/api/whatsapp/route.ts`, `lib/whatsapp.ts`
   - Description: Twilio WhatsApp integration. Daily check-ins, milestone alerts, weekly summaries. India market focus.
 
-- [ ] **Task 4: Weekly PDF Progress Reports**
+- [x] **Task 4: Weekly PDF Progress Reports**
   - File(s): `app/api/reports/weekly/route.ts`, `lib/report-generator.ts`
   - Description: Auto-generate PDF reports for IEP meetings. "Week X: Y episodes, top triggers, effective strategies."
 
