@@ -18,8 +18,8 @@
   - File(s): `app/api/reports/weekly/route.ts`, `lib/report-generator.ts`
   - Description: Auto-generate PDF reports for IEP meetings. "Week X: Y episodes, top triggers, effective strategies."
 
-- [ ] **Task 5: Therapist Portal**
-  - File(s): `app/therapist/page.tsx`, `app/api/therapist/assignments/route.ts`
+- [x] **Task 5: Therapist Portal**
+  - File(s): `app/therapist/page.tsx`, `app/therapist/TherapistPortalClient.tsx`, `app/api/therapist/assignments/route.ts`, `app/api/therapist/notes/route.ts`
   - Description: Separate login for therapists to view assigned children, add notes, suggest strategies.
 
 - [ ] **Task 6: Waitlist → Onboarding Email Sequence**

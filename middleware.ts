@@ -51,7 +51,9 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/history') ||
     request.nextUrl.pathname.startsWith('/team') ||
     request.nextUrl.pathname.startsWith('/wellness') ||
-    request.nextUrl.pathname.startsWith('/admin')
+    request.nextUrl.pathname.startsWith('/admin') ||
+    request.nextUrl.pathname.startsWith('/therapist') ||
+    request.nextUrl.pathname.startsWith('/therapist')
 
   if (!user && isProtectedRoute) {
     const loginUrl = request.nextUrl.clone()
