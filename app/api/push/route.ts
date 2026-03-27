@@ -7,8 +7,14 @@
  * Also used internally by cron jobs (authenticated via CRON_SECRET).
  */
 
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase/server'
+export const dynamic = 'force-dynamic'
+
 import {
   sendPushNotification,
   buildMilestonePush,

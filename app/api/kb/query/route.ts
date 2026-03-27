@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '../../../../lib/supabase/server'
 
 const RAG_BASE = process.env.RAG_SERVICE_URL || 'http://localhost:8100'

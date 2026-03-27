@@ -6,8 +6,14 @@
  * Auth: x-cron-secret header must match CRON_SECRET env var.
  */
 
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase/server'
+export const dynamic = 'force-dynamic'
+
 import {
   buildWeeklyReportPush,
   sendPushToMultiple,

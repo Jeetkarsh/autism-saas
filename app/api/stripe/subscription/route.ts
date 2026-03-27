@@ -8,6 +8,9 @@ import { createClient } from '@/lib/supabase/server'
 import { getUserSubscription, getUserPlan, PLAN_LIMITS } from '@/lib/stripe-server'
 import type { Plan } from '@/lib/types/database'
 
+// Force dynamic rendering to avoid prerender errors during build
+export const dynamic = 'force-dynamic'
+
 export async function GET(): Promise<NextResponse> {
   const supabase = createClient()
   const {

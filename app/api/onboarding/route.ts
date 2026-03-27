@@ -12,8 +12,14 @@
  * GET  /api/onboarding/cron     — Cron: process pending day-3 and day-7 sends
  */
 
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase/server'
+export const dynamic = 'force-dynamic'
+
 import {
   sendEmail,
   buildDay1Email,
